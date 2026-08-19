@@ -1,0 +1,10 @@
+[project]
+name = "job-application-copilot"
+version = "0.1.0"
+description = "A local-first, evidence-based job application copilot."
+requires-python = ">=3.12"
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
+testpaths = ["tests"]
+
