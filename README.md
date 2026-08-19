@@ -14,6 +14,16 @@ streamlit run app/main.py
 
 The app works without an API key using local, deterministic parsing and drafting. `.env.example` reserves the configuration for a future OpenAI structured-analysis adapter. That adapter should use the Responses API and structured outputs, as supported by the official [GPT-5.4 model documentation](https://developers.openai.com/api/docs/models/gpt-5.4), rather than storing unstructured model output in database fields.
 
+## Deploy to Streamlit Community Cloud
+
+1. Create a **private** GitHub repository and upload this entire project. Do not upload `.env`, `data/database.sqlite`, or `.streamlit/secrets.toml`.
+2. Sign in at [share.streamlit.io](https://share.streamlit.io/) with GitHub and select **Create app**.
+3. Select the repository and branch, then use `app/main.py` as the entrypoint.
+4. Open **Advanced settings**, choose Python **3.12**, and paste any secrets from `.streamlit/secrets.toml.example` only if you later add an API integration.
+5. Deploy. Streamlit will install the pinned packages in `requirements.txt` and give you a `*.streamlit.app` URL.
+
+Community Cloud runs the app from the repository root, supports an entrypoint in a subdirectory, and reads `requirements.txt` from the project root. Your GitHub repository remains the source of truth: pushes update the hosted app. These deployment details follow the [official Streamlit deployment guide](https://docs.streamlit.io/deploy/streamlit-community-cloud/deploy-your-app/deploy) and [dependency documentation](https://docs.streamlit.io/deploy/streamlit-community-cloud/deploy-your-app/app-dependencies).
+
 ## Workflow
 
 1. Open **New job**, paste a description or a public URL, and analyze it.
@@ -24,6 +34,10 @@ The app works without an API key using local, deterministic parsing and drafting
 ## Data and privacy
 
 All profile, analysis, and application data is stored in `data/database.sqlite` on this machine. Master profile data is seeded from the supplied verified specification and is never overwritten during tailoring. Do not commit `.env` or the database. URL extraction only requests the supplied public URL; if it fails, paste the description instead.
+
+### Community Cloud storage limitation
+
+SQLite is suitable for local use, but Community Cloud filesystem storage is not a durable database. The hosted version can reset saved applications after a restart, redeploy, or platform maintenance. The initial hosted deployment is therefore best used for analysis and document generation. For a durable hosted application tracker, connect the SQLAlchemy storage layer to a managed PostgreSQL provider before relying on it for application history.
 
 ## Database
 

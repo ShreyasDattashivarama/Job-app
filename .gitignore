@@ -1,8 +1,8 @@
 .env
+.streamlit/secrets.toml
 __pycache__/
 .pytest_cache/
 .streamlit/
 data/*.sqlite
 data/exports/*
 !data/exports/.gitkeep
-
